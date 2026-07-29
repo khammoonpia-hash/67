@@ -1,0 +1,46 @@
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
+local Window = Rayfield:CreateWindow({
+   Name = "Booster Buyer",
+   LoadingTitle = "Loading Script...",
+   LoadingSubtitle = "by Assistant",
+   ConfigurationSaving = {
+      Enabled = false
+   },
+   KeySystem = false
+})
+
+local Tab = Window:CreateTab("Main", 4483362458) -- ไอคอนแท็บ
+
+local Section = Tab:CreateSection("Item Shop")
+
+local Button = Tab:CreateButton({
+   Name = "Buy Growth Booster ($500,000)",
+   Callback = function()
+      local args = {
+          "Growth Booster",
+          0
+      }
+      
+      -- ส่ง Event ไปยัง Server
+      local success, err = pcall(function()
+          game:GetService("ReplicatedStorage"):WaitForChild("BuyBoosterRequest"):FireServer(unpack(args))
+      end)
+      
+      if success then
+          Rayfield:Notify({
+             Title = "Success!",
+             Content = "ส่งคำขอซื้อ Growth Booster เรียบร้อยแล้ว",
+             Duration = 3,
+             Image = 4483362458,
+          })
+      else
+          Rayfield:Notify({
+             Title = "Error!",
+             Content = "เกิดข้อผิดพลาด: " .. tostring(err),
+             Duration = 4,
+             Image = 4483362458,
+          })
+      end
+   end,
+})
